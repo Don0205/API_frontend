@@ -9,6 +9,8 @@ const PostList = () => {
     const { user } = useUser();
     const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [posts, setPosts] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredPosts, setFilteredPosts] = useState([]);
 
     useEffect(() => {
         setIsLoggedIn(user);
@@ -26,6 +28,24 @@ const PostList = () => {
 
         fetchPosts();
     }, []);
+
+    useEffect(() => {
+        // Function to filter posts based on search query
+        const filterPosts = () => {
+            const lowerCaseQuery = searchQuery.toLowerCase().trim();
+            if (!lowerCaseQuery) {
+                setFilteredPosts(posts); // No query, show all posts
+            } else {
+                const filtered = posts.filter(post => (
+                    post.title.toLowerCase().includes(lowerCaseQuery) ||
+                    post.content.toLowerCase().includes(lowerCaseQuery)
+                ));
+                setFilteredPosts(filtered);
+            }
+        };
+
+        filterPosts();
+    }, [searchQuery, posts]);
 
     const handleCommentSubmit = async (postId, commentText) => {
         try {
@@ -56,22 +76,27 @@ const PostList = () => {
     return (
         <div>
             <h2>Posts</h2>
+            <div>
+                <input
+                    type="text"
+                    placeholder="Search by title or content"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
             <ul>
-                {posts.map(post => (
+                {filteredPosts.map(post => (
                     <li key={post._id}>
-                        {(user && (user.isAdmin || user.company === post.company)) && (
-
+                        {(user && (user.isAdmin && user.company === post.company)) && (
                             <Link to={`/posts/${post._id}`}>edit</Link>
-
                         )}
-
                         <div className="post-list">
                             <Post
                                 key={post._id}
                                 title={post.title}
                                 company={post.company}
                                 image={post.image}
-                                description={post.description}
+                                description={post.content}
                                 likes={post.likes}
                                 comments={post.comments}
                                 user={user}
