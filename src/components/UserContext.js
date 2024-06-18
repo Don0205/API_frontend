@@ -12,9 +12,11 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await apiService.get('/auth/user'); // Example endpoint
-        setUser(response.data);
-        console.log(`response.data ${response.data._id}; set user ${response.data._id}`);
+        const token = localStorage.getItem('token');
+        if (token) {
+          const response = await apiService.get('/auth/user');
+          setUser(response.data);
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
       } finally {
@@ -23,12 +25,10 @@ export const UserProvider = ({ children }) => {
     };
 
     fetchUser();
-  }, []); // Empty dependency array to ensure it only runs once
-
-
+  }, []);
 
   return (
-    <UserContext.Provider value={{ user, loading }}>
+    <UserContext.Provider value={{ user, setUser, loading }}>
       {children}
     </UserContext.Provider>
   );
