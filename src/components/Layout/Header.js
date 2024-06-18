@@ -4,7 +4,7 @@ import { useUser } from '../UserContext';
 
 const Header = () => {
     const { user } = useUser();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(null);
 
     useEffect(() => {
         setIsLoggedIn(user);

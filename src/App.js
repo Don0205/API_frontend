@@ -9,6 +9,8 @@ import EditPost from './components/Posts/EditPost';
 import PostList from './components/Posts/PostList';
 import Logout from './components/Auth/Logout';
 
+import './Css/Post.css'
+import './Css/PostList.css'
 
 
 

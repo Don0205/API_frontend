@@ -23,12 +23,12 @@ const EditPost = () => {
 
                 const response = await apiService.get(`/posts/${postId}`);
                 const post = response.data;
-                console.log(`user ID ${user._id} ; post author ${post.author}`)
+                console.log(`user ID ${user.company} ; post author ${post.company}`)
                 setFormData({ title: post.title, content: post.content });
 
 
                 // Check if the current user is the author or an admin
-                if (user && (post.author === user._id || user.isAdmin)) {
+                if (user && (post.company === user.company & user.isAdmin)) {
                     console.log("auth true")
                     setAuthorized(true);
                 } else {
@@ -57,6 +57,7 @@ const EditPost = () => {
         try {
             const response = await apiService.put(`/posts/${postId}`, formData);
             console.log('Post updated:', response.data);
+            alert("post updated")
             navigate(`/posts/${postId}`); // Navigate to post details page
         } catch (error) {
             console.error('Error updating post:', error.response.data);
@@ -108,8 +109,8 @@ const EditPost = () => {
                 </div>
                 <button type="submit">Update Post</button>
                 
-                <button onClick={() => handleDelete(postId)}>Delete</button>
             </form>
+            <button onClick={() => handleDelete(postId)}>Delete</button>
         </div>
     );
 };

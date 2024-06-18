@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../UserContext';
 
 const Logout = () => {
-    const { setUser } = useUser();
+    const { setUser, setLogin } = useUser();
     const navigate = useNavigate();
 
     useEffect(() => {
         // Clear user data
         setUser(null);
+        setLogin(null)
         // Remove token from local storage
         localStorage.removeItem('token');
         // Redirect to login page

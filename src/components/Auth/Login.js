@@ -6,7 +6,7 @@ import { useUser } from '../UserContext';
 
 const Login = () => {
     
-    const { setUser } = useUser();
+    const { setLogin } = useUser();
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ const Login = () => {
             // Set token to Axios headers
             setAuthToken(token);
             console.log("token setted")
-            setUser(token);
+            setLogin(true);
 
             navigate('/');
 
