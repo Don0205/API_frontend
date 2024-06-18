@@ -59,7 +59,12 @@ const PostList = () => {
             <ul>
                 {posts.map(post => (
                     <li key={post._id}>
-                        <Link to={`/posts/${post._id}`}>edit</Link>
+                        {(user && (user.isAdmin || user.company === post.company)) && (
+
+                            <Link to={`/posts/${post._id}`}>edit</Link>
+
+                        )}
+
                         <div className="post-list">
                             <Post
                                 key={post._id}
@@ -70,6 +75,7 @@ const PostList = () => {
                                 likes={post.likes}
                                 comments={post.comments}
                                 user={user}
+                                postid={post._id}
                             />
                             {isLoggedIn && (
                                 <form onSubmit={(e) => {

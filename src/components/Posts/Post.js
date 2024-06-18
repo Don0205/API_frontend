@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import apiService from '../apiService'; // Adjust path as necessary
 
-const Post = ({ title, company, image, description, likes = [], comments = [], user }) => {
+const Post = ({ title, company, image, description, likes = [], comments = [], user,postid }) => {
     const [showComments, setShowComments] = useState(false);
 
     const toggleComments = () => {
         setShowComments(prev => !prev); // Toggle showComments state
     };
 
-    const handleDeleteComment = (commentId) => {
-        // Handle deletion logic here, e.g., call an API to delete the comment
-        console.log(`Deleting comment with ID ${commentId}`);
-        // Update state or perform any necessary operations after deletion
+
+    const handleDeleteComment = async (commentId) => {
+        try {
+            console.log(`delete post id ${postid} ; commentid ${commentId}` )
+            await apiService.delete(`http://localhost:5000/api/posts//comment/${postid}/${commentId}`);
+            
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
