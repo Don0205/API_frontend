@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios if not already imported
-import apiService, { setAuthToken } from '../apiService'; // Adjust path as per your project structure
+import { setAuthToken } from '../apiService'; // Adjust path as per your project structure
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../UserContext';
 
 const Login = () => {
+    
+    const { setUser } = useUser();
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -28,6 +34,9 @@ const Login = () => {
             // Set token to Axios headers
             setAuthToken(token);
             console.log("token setted")
+            setUser(token);
+
+            navigate('/');
 
             
 

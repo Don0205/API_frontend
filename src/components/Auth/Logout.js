@@ -12,7 +12,7 @@ const Logout = () => {
         // Remove token from local storage
         localStorage.removeItem('token');
         // Redirect to login page
-        navigate('/login');
+        navigate('/');
     }, [navigate, setUser]);
 
     return (
